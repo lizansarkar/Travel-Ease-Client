@@ -18,7 +18,6 @@
   --color-error: #ef4444;
 }
 
-
 .section {
     margin: 20px 0px;
 }
@@ -26,4 +25,8 @@
 .container {
     width: 1400px;
     margin: auto;
+}
+
+body {
+  
 }

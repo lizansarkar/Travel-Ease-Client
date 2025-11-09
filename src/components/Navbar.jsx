@@ -1,7 +1,16 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 
 export default function Navbar() {
+
+  const links = <>
+    <li><NavLink to='/'>Home</NavLink></li>
+    <li><NavLink to='/all-vehicles'>All Vehicles</NavLink></li>
+    <li><NavLink to='/add-vehicle'>Add Vehicle</NavLink></li>
+    <li><NavLink to='/my-vehicle'>My Vehicles</NavLink></li>
+    <li><NavLink to='/my-bookings'>My Bookings</NavLink></li>
+  </>
+
   return (
     <nav className="shadow-sm bg-base-200">
       <div className="navbar container">
@@ -45,20 +54,14 @@ export default function Navbar() {
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li>
-                <a href="">Lizan</a>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
+            {links}
           </ul>
         </div>
         <div className="navbar-end">
-          {/* <NavLink>Login</NavLink> */}
-          <button>Login</button>
+          <ul className="menu menu-horizontal px-1 gap-4">
+            <NavLink to='/login'>Login</NavLink>
+            <NavLink to='/register'>Register</NavLink>
+          </ul>
         </div>
       </div>
     </nav>
