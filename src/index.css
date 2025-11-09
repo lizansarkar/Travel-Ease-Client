@@ -1,8 +1,29 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: light --default;
+ }
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: blue;
-  --color-secondary: teal;
+
+  --color-primary: #1d4ed8;        /* Bright modern blue (buttons, links) */
+  --color-secondary: #f9fafb;      /* Soft background */
+  --color-accent: #2563eb;         /* For hover or highlights */
+  --color-neutral: #262626;        /* Text color */
+  --color-base-100: #ffffff;       /* Main white background */
+  --color-base-200: #f3f4f6;       /* Light card background */
+  --color-info: #3b82f6;
+  --color-success: #10b981;
+  --color-warning: #facc15;
+  --color-error: #ef4444;
+}
+
+
+.section {
+    margin: 20px 0px;
+}
+
+.container {
+    width: 1400px;
+    margin: auto;
 }
