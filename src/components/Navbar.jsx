@@ -12,7 +12,7 @@ export default function Navbar() {
   </>
 
   return (
-    <nav className="shadow-sm bg-base-200">
+    <nav className="bg-base-200">
       <div className="navbar container">
         <div className="navbar-start">
           <div className="dropdown">
@@ -37,15 +37,7 @@ export default function Navbar() {
               tabIndex="-1"
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
-              <li>
-                <a>adfsd 1</a>
-              </li>
-              <li>
-                <a>adf</a>
-              </li>
-              <li>
-                <a>asdf 3</a>
-              </li>
+              {links}
             </ul>
           </div>
           <a className="cursor-pointer">
@@ -53,14 +45,15 @@ export default function Navbar() {
           </a>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
+          <ul className="menu menu-horizontal px-1 font-semibold">
             {links}
           </ul>
         </div>
         <div className="navbar-end">
           <ul className="menu menu-horizontal px-1 gap-4">
-            <NavLink to='/login'>Login</NavLink>
-            <NavLink to='/register'>Register</NavLink>
+            <NavLink className='btn bg-black text-secondary' to='/login'>Login</NavLink>
+            <hr className="bg-white h-10 w-1 border-none"/>
+            <NavLink className='btn bg-black text-secondary' to='/register'>Register</NavLink>
           </ul>
         </div>
       </div>

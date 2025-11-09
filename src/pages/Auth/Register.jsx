@@ -1,7 +1,8 @@
 import React, { use, useState } from "react";
+import { Link } from "react-router";
 // import { AuthContext } from '../../context/AuthContext';
 
-export default function Register({ switchToLogin }) {
+export default function Register() {
   // const {} = use(AuthContext);
 
   const [formData, setFormData] = useState({
@@ -22,7 +23,7 @@ export default function Register({ switchToLogin }) {
   };
 
   return (
-    <div className="container min-h-screen flex justify-center items-center">
+    <div className="min-h-screen flex justify-center items-center">
       <div className="card w-full max-w-md bg-base-100 shadow-2xl rounded-2xl p-8 transition-all duration-300">
         <h2 className="text-3xl font-bold text-neutral mb-2">
           Create an account
@@ -31,7 +32,7 @@ export default function Register({ switchToLogin }) {
           Join TravelEase — add and manage your vehicles
         </p>
 
-        <form onSubmit={handleRegister} className="space-y-4">
+        <form onSubmit={handleRegister} className="flex flex-col gap-3">
           {/* Full Name Input */}
           <label className="form-control w-full">
             <input
@@ -98,12 +99,7 @@ export default function Register({ switchToLogin }) {
         {/* Switch to Login */}
         <p className="text-center text-sm mt-6 text-gray-500">
           Already have an account?
-          <button
-            onClick={switchToLogin}
-            className="link link-hover text-accent ml-1 font-semibold"
-          >
-            Login
-          </button>
+          <Link className="link link-hover text-accent ml-1 font-semibold" to='/login'>login</Link>
         </p>
       </div>
     </div>
