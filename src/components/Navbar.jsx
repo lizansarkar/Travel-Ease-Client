@@ -1,15 +1,39 @@
-import React from "react";
+import React, { use } from "react";
 import { NavLink } from "react-router";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Navbar() {
+  const { user, signOutUser } = use(AuthContext);
 
-  const links = <>
-    <li><NavLink to='/'>Home</NavLink></li>
-    <li><NavLink to='/all-vehicles'>All Vehicles</NavLink></li>
-    <li><NavLink to='/add-vehicle'>Add Vehicle</NavLink></li>
-    <li><NavLink to='/my-vehicle'>My Vehicles</NavLink></li>
-    <li><NavLink to='/my-bookings'>My Bookings</NavLink></li>
-  </>
+  const handleSignOut = () => {
+    signOutUser()
+      .then(() => {
+        console.log("User signed out successfully");
+      })
+      .catch((error) => {
+        console.error("Error signing out:", error);
+      });
+  };
+
+  const links = (
+    <>
+      <li>
+        <NavLink to="/">Home</NavLink>
+      </li>
+      <li>
+        <NavLink to="/all-vehicles">All Vehicles</NavLink>
+      </li>
+      <li>
+        <NavLink to="/add-vehicle">Add Vehicle</NavLink>
+      </li>
+      <li>
+        <NavLink to="/my-vehicle">My Vehicles</NavLink>
+      </li>
+      <li>
+        <NavLink to="/my-bookings">My Bookings</NavLink>
+      </li>
+    </>
+  );
 
   return (
     <nav className="bg-base-200">
@@ -41,20 +65,56 @@ export default function Navbar() {
             </ul>
           </div>
           <a className="cursor-pointer">
-            <img src="/src/assets/travel-ease-logo.png" alt="" className="h-10"/>
+            <img
+              src="/src/assets/travel-ease-logo.png"
+              alt=""
+              className="h-10"
+            />
           </a>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 font-semibold">
-            {links}
-          </ul>
+          <ul className="menu menu-horizontal px-1 font-semibold">{links}</ul>
         </div>
         <div className="navbar-end">
-          <ul className="menu menu-horizontal px-1 gap-4">
-            <NavLink className='btn bg-black text-secondary' to='/login'>Login</NavLink>
-            <hr className="bg-white h-10 w-1 border-none"/>
-            <NavLink className='btn bg-black text-secondary' to='/register'>Register</NavLink>
-          </ul>
+          {user ? (
+            <div className="flex items-center gap-3">
+              <div
+                className="avatar tooltip tooltip-bottom"
+                data-tip={user.displayName || "User"}
+              >
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar tooltip tooltip-bottom"
+                >
+                  <div className="w-10 rounded-full">
+                    <img
+                      alt={user.displayName || "User"}
+                      src={user.photoURL || "https://via.placeholder.com/150"}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* logout button */}
+              <button
+                onClick={handleSignOut}
+                className="btn bg-black text-secondary"
+              >
+                Log Out
+              </button>
+            </div>
+          ) : (
+            <>
+              <NavLink className="btn bg-black text-secondary" to="/login">
+                Login
+              </NavLink>
+               <div className="divider lg:divider-horizontal"></div>
+              <NavLink className="btn btn-outline btn-neutral" to="/register">
+                Register
+              </NavLink>
+            </>
+          )}
         </div>
       </div>
     </nav>

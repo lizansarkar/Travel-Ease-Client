@@ -1,12 +1,10 @@
 import React from 'react'
-import Register from '../Auth/Register'
-import Login from '../Auth/Login'
+import Banner from './Banner'
 
 export default function Home() {
   return (
     <div>
-      <Register></Register>
-      <Login></Login>
+      <Banner></Banner>
     </div>
   )
 }

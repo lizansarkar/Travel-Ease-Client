@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router";
 // import { AuthContext } from '../../context/AuthContext';
 
@@ -23,8 +23,8 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
-      <div className="card w-full max-w-md bg-base-100 shadow-2xl rounded-2xl p-8 transition-all duration-300">
+    <div className="h-auto md:min-h-screen flex justify-center items-center bg-base-200 p-4">
+      <div className="card w-full max-w-md bg-base-100 shadow-xl md:shadow-2xl rounded-2xl p-6 md:p-8 transition-all duration-300">
         <h2 className="text-3xl font-bold text-neutral mb-2">
           Create an account
         </h2>

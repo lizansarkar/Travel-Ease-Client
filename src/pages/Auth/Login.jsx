@@ -12,6 +12,24 @@ export default function Login() {
     signInWithGoogle()
       .then((result) => {
         console.log(result.user);
+        const newUser = {
+          name: result.user.displayName,
+          email: result.user.email,
+          image: result.user.photoURL
+        }
+
+        //create user in the database
+        fetch('http://localhost:3000/users', {
+          method: 'POST',
+          headers: {
+            'content-type' : 'application/json'
+          },
+          body: JSON.stringify(newUser)
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data)
+        })
       })
       .catch((error) => {
         console.log(error);
@@ -25,8 +43,8 @@ export default function Login() {
   };
 
   return (
-    <div className="container min-h-screen flex justify-center items-center">
-      <div className="card w-full max-w-md bg-base-100 shadow-2xl rounded-2xl p-8 transition-all duration-300">
+    <div className="h-auto md:min-h-screen flex justify-center items-center bg-base-200 p-4">
+      <div className="card w-full max-w-md bg-base-100 shadow-xl md:shadow-2xl rounded-2xl p-6 md:p-8 transition-all duration-300">
         <h2 className="text-3xl font-bold text-center text-neutral mb-2">
           Login
         </h2>
@@ -68,7 +86,7 @@ export default function Login() {
           {/* Login Button */}
           <button
             type="submit"
-            className="btn w-full bg-[#1d4ed8] text-white hover:bg-[#2563eb] rounded-lg border-none h-12 text-base font-semibold"
+            className="btn w-full bg-black text-white hover:bg-[#2563eb] rounded-lg border-none h-12 text-base font-semibold"
           >
             Login
           </button>
