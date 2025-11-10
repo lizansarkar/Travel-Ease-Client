@@ -31,6 +31,10 @@ export default function AuthProvider({ children }) {
     }
 
     //signin with email and password
+    const registerWithEmailPassword = (email, password) => {
+        setLoading(true);
+        return createUserWithEmailAndPassword(auth, email, password);
+    }
 
     //login with email and password
     const loginWithEmailPassword = (email, password) => {
@@ -60,6 +64,7 @@ export default function AuthProvider({ children }) {
         createUser,
         signInUser,
         signInWithGoogle,
+        registerWithEmailPassword,
         loginWithEmailPassword,
         signOutUser,
         user,

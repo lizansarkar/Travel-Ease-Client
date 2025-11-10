@@ -1,12 +1,10 @@
-import React, { use, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router";
+import toast from "react-hot-toast";
+import { use } from "react";
 
 export default function Login() {
-  const { signInWithGoogle } = use(AuthContext);
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { signInWithGoogle, loginWithEmailPassword } = use(AuthContext);
 
   const handleGoogleSignIn = () => {
     signInWithGoogle()
@@ -38,8 +36,22 @@ export default function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log("Login Attempt:", { email, password });
-    alert("login successfull");
+    console.log(e)
+
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    console.log(email, password)
+
+    loginWithEmailPassword(email, password)
+    .then(res => {
+      const user = res.user;
+      console.log(user)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+    
+    toast.success("login successfull");
   };
 
   return (
@@ -57,10 +69,9 @@ export default function Login() {
           <label className="form-control w-full">
             <input
               type="email"
+              name="email"
               placeholder="Email"
               className="input input-bordered w-full rounded-lg border-gray-300 focus:border-primary focus:ring-primary h-12 text-neutral"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </label>
@@ -69,10 +80,9 @@ export default function Login() {
           <label className="form-control w-full">
             <input
               type="password"
+              name="password"
               placeholder="Password"
               className="input input-bordered w-full rounded-lg border-gray-300 focus:border-primary focus:ring-primary h-12 text-neutral"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </label>

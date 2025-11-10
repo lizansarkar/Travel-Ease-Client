@@ -1,25 +1,25 @@
-import React, { useState } from "react";
 import { Link } from "react-router";
-// import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
+import { use } from "react";
+import toast from "react-hot-toast";
 
 export default function Register() {
-  // const {} = use(AuthContext);
-
-  const [formData, setFormData] = useState({
-    fullName: "",
-    photoUrl: "",
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const {registerWithEmailPassword} = use(AuthContext);
 
   const handleRegister = (e) => {
     e.preventDefault();
-    console.log("Register Attempt:", formData);
-    alert("register successfull");
+    console.log("Register Attempt:");
+
+    registerWithEmailPassword()
+    .then(res => {
+      const user = res.user;
+      console.log(user)
+      toast.success("register successfull")
+    })
+    .catch(error => {
+      console.log(error)
+      toast.error("not a valid user")
+    })
   };
 
   return (
@@ -37,11 +37,9 @@ export default function Register() {
           <label className="form-control w-full">
             <input
               type="text"
-              name="fullName"
+              name="name"
               placeholder="Full name"
               className="input input-bordered w-full rounded-lg border-gray-300 focus:border-primary focus:ring-primary h-12 text-neutral"
-              value={formData.fullName}
-              onChange={handleChange}
               required
             />
           </label>
@@ -53,8 +51,6 @@ export default function Register() {
               name="photoUrl"
               placeholder="Photo URL (optional)"
               className="input input-bordered w-full rounded-lg border-gray-300 focus:border-primary focus:ring-primary h-12 text-neutral"
-              value={formData.photoUrl}
-              onChange={handleChange}
             />
           </label>
 
@@ -65,8 +61,6 @@ export default function Register() {
               name="email"
               placeholder="Email"
               className="input input-bordered w-full rounded-lg border-gray-300 focus:border-primary focus:ring-primary h-12 text-neutral"
-              value={formData.email}
-              onChange={handleChange}
               required
             />
           </label>
@@ -78,8 +72,6 @@ export default function Register() {
               name="password"
               placeholder="Password"
               className="input input-bordered w-full rounded-lg border-gray-300 focus:border-primary focus:ring-primary h-12 text-neutral"
-              value={formData.password}
-              onChange={handleChange}
               required
             />
           </label>
