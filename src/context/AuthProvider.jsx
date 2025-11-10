@@ -30,6 +30,14 @@ export default function AuthProvider({ children }) {
         return signInWithPopup(auth, googleProvider);
     }
 
+    //signin with email and password
+
+    //login with email and password
+    const loginWithEmailPassword = (email, password) => {
+        setLoading(true);
+        return signInWithEmailAndPassword(auth, email, password);
+    }
+
     //sign out user
     const signOutUser = () => {
         setLoading(true);
@@ -52,6 +60,7 @@ export default function AuthProvider({ children }) {
         createUser,
         signInUser,
         signInWithGoogle,
+        loginWithEmailPassword,
         signOutUser,
         user,
         loading,

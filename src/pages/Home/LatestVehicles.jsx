@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function LatestVehicles() {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectVehicle, setSelectVehicle] = useState(null);
+
 
   useEffect(() => {
     const fetchLatestVehicles = async () => {
@@ -27,7 +30,7 @@ export default function LatestVehicles() {
   if (loading) {
     return (
       <div className="text-center py-12 text-xl">
-        Loading latest vehicles...
+        <LoadingSpinner></LoadingSpinner>
       </div>
     );
   }
