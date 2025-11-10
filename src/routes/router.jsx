@@ -9,6 +9,7 @@ import MyBookings from "../pages/Dashboard/MyBookings";
 import Register from "../pages/Auth/Register";
 import Login from "../pages/Auth/Login";
 import PrivateRoute from "./PrivateRoute";
+import ErrorPage from "../pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -21,27 +22,47 @@ const router = createBrowserRouter([
       },
       {
         path: "/register",
-        element: <Register></Register>
+        element: <Register></Register>,
       },
       {
         path: "/login",
-        element: <Login></Login>
+        element: <Login></Login>,
       },
       {
         path: "/all-vehicles",
-        element: <PrivateRoute><AllVehicles /></PrivateRoute>, 
+        element: (
+          <PrivateRoute>
+            <AllVehicles />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/add-vehicle",
-        element: <PrivateRoute><AddVehicle></AddVehicle></PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <AddVehicle></AddVehicle>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/my-vehicle",
-        element: <PrivateRoute><MyVehicles></MyVehicles></PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <MyVehicles></MyVehicles>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/my-bookings",
-        element: <PrivateRoute><MyBookings></MyBookings></PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <MyBookings></MyBookings>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "*",
+        element: <ErrorPage></ErrorPage>,
       },
     ],
   },

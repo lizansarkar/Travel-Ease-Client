@@ -16,6 +16,24 @@ export default function Register() {
     const password = e.target.password.value;
     console.log(name, photoUrl, email, password)
 
+    //password validation
+    if (password.length < 6) {
+        toast.error("Password length must be at least 6 characters.");
+        return;
+    }
+
+    //check uppercase
+    if (!/[A-Z]/.test(password)) {
+        toast.error("Password must have at least one Uppercase letter (A-Z).");
+        return;
+    }
+
+    //check lowercase
+    if (!/[a-z]/.test(password)) {
+        toast.error("Password must have at least one Lowercase letter (a-z).");
+        return;
+    }
+
     registerWithEmailPassword(email, password)
     .then(res => {
       const user = res.user;
