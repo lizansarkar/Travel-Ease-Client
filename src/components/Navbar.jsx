@@ -23,15 +23,20 @@ export default function Navbar() {
       <li>
         <NavLink to="/all-vehicles">All Vehicles</NavLink>
       </li>
-      <li>
-        <NavLink to="/add-vehicle">Add Vehicle</NavLink>
-      </li>
-      <li>
-        <NavLink to="/my-vehicle">My Vehicles</NavLink>
-      </li>
-      <li>
-        <NavLink to="/my-bookings">My Bookings</NavLink>
-      </li>
+
+      {user && (
+        <>
+          <li>
+            <NavLink to="/add-vehicle">Add Vehicle</NavLink>
+          </li>
+          <li>
+            <NavLink to="/my-vehicle">My Vehicles</NavLink>
+          </li>
+          <li>
+            <NavLink to="/my-bookings">My Bookings</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
 
@@ -109,7 +114,7 @@ export default function Navbar() {
               <NavLink className="btn bg-black text-secondary" to="/login">
                 Login
               </NavLink>
-               <div className="divider lg:divider-horizontal"></div>
+              <div className="divider lg:divider-horizontal"></div>
               <NavLink className="btn btn-outline btn-neutral" to="/register">
                 Register
               </NavLink>
