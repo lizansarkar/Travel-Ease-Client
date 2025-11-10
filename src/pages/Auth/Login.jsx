@@ -1,10 +1,11 @@
 import { AuthContext } from "../../context/AuthContext";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { use } from "react";
 
 export default function Login() {
   const { signInWithGoogle, loginWithEmailPassword } = use(AuthContext);
+  const navigate = useNavigate();
 
   const handleGoogleSignIn = () => {
     signInWithGoogle()
@@ -36,7 +37,6 @@ export default function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log(e)
 
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -46,12 +46,13 @@ export default function Login() {
     .then(res => {
       const user = res.user;
       console.log(user)
+      toast.success("login successfull");
+      navigate("/");
     })
     .catch(error => {
       console.log(error)
     })
-    
-    toast.success("login successfull");
+
   };
 
   return (

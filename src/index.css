@@ -31,6 +31,12 @@ body {
   background-color: #f9fafb;
 }
 
+.menu a.active {
+  color: rgb(0, 0, 231);
+  text-decoration: underline;
+  transition: 0.5s;
+}
+
 @media (max-width: 768px) {
   .container {
     width: 100%;

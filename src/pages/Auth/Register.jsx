@@ -1,24 +1,32 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { AuthContext } from '../../context/AuthContext';
 import { use } from "react";
 import toast from "react-hot-toast";
 
 export default function Register() {
   const {registerWithEmailPassword} = use(AuthContext);
+  const navigate = useNavigate();
 
   const handleRegister = (e) => {
     e.preventDefault();
-    console.log("Register Attempt:");
 
-    registerWithEmailPassword()
+    const name = e.target.name.value;
+    const photoUrl = e.target.photoUrl.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    console.log(name, photoUrl, email, password)
+
+    registerWithEmailPassword(email, password)
     .then(res => {
       const user = res.user;
       console.log(user)
       toast.success("register successfull")
+      navigate("/");
     })
     .catch(error => {
       console.log(error)
-      toast.error("not a valid user")
+      toast.error(`Something went wrong. ${error.message}`)
+      // toast.error("Something went wrong.")
     })
   };
 

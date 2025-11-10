@@ -69,12 +69,13 @@ export default function Navbar() {
               {links}
             </ul>
           </div>
-          <a className="cursor-pointer">
+          <a className="flex items-center justify-center cursor-pointer">
             <img
-              src="/src/assets/travel-ease-logo.png"
+              src="/src/assets/icon1.png"
               alt=""
-              className="h-10"
+              className="h-15"
             />
+            <h1 className="font-bold text-xl md:text-2xl">TravelEase</h1>
           </a>
         </div>
         <div className="navbar-center hidden lg:flex">
