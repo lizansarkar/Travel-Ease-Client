@@ -11,10 +11,6 @@ export default function AuthProvider({ children }) {
     const createUser = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password)
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-        })
     }
 
     //signin user
@@ -72,8 +68,8 @@ export default function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext value={authInfo}>
+        <AuthContext.Provider value={authInfo}>
             {children}
-        </AuthContext>
+        </AuthContext.Provider>
     )
 }

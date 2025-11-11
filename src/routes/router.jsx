@@ -11,6 +11,7 @@ import Login from "../pages/Auth/Login";
 import PrivateRoute from "./PrivateRoute";
 import ErrorPage from "../pages/ErrorPage";
 import ViewDetail from "../pages/Vehicles/ViewDetail";
+import UpdateVehicle from "../pages/Dashboard/UpdateVehicle";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +67,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ViewDetail></ViewDetail>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/update-vehicle/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateVehicle></UpdateVehicle>
           </PrivateRoute>
         ),
       },

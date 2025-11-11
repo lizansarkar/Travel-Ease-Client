@@ -5,6 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../context/AuthContext";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function ViewDetail() {
   const { id } = useParams();
@@ -13,7 +14,6 @@ export default function ViewDetail() {
 
   const [vehicle, setVehicle] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchVehicleDetails = async () => {
@@ -23,7 +23,6 @@ export default function ViewDetail() {
         setLoading(false);
       } catch (err) {
         console.error("Error fetching vehicle details:", err);
-        setError("Failed to load vehicle details.");
         setLoading(false);
       }
     };
@@ -31,7 +30,6 @@ export default function ViewDetail() {
     if (id) {
       fetchVehicleDetails();
     } else {
-      setError("Vehicle ID not found.");
       setLoading(false);
     }
   }, [id]);
@@ -59,8 +57,6 @@ export default function ViewDetail() {
     };
 
     try {
-      // ধরে নিচ্ছি আপনার ব্যাকএন্ডে /bookings নামে একটি POST রুট আছে
-      // যা বুকিং ডেটা MongoDB তে সেভ করবে।
       const res = await axios.post(
         `http://localhost:3000/bookings`,
         bookingData
@@ -70,9 +66,8 @@ export default function ViewDetail() {
         toast.success(
           `Booking request for ${vehicle.vehicleName} submitted successfully!`
         );
-        // বুকিং সফল হলে অন্য কোনো পেজে রিডাইরেক্ট করা যেতে পারে
       } else {
-        toast.error("Booking failed. Please try again.");
+        toast.error("Booking is already exist. Booking failed.");
       }
     } catch (err) {
       console.error("Booking error:", err);
@@ -83,14 +78,8 @@ export default function ViewDetail() {
   if (loading) {
     return (
       <div className="text-center py-20">
-        <span className="loading loading-spinner loading-lg"></span>
+        <LoadingSpinner></LoadingSpinner>
       </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center py-20 text-xl text-red-500">{error}</div>
     );
   }
 
@@ -102,12 +91,10 @@ export default function ViewDetail() {
     );
   }
 
-  // ⭐️ আকর্ষণীয় রেসপনসিভ লেআউট ⭐️
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="bg-white shadow-2xl rounded-2xl overflow-hidden p-6 md:p-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* বাম কলাম: ছবি */}
           <div className="lg:col-span-2">
             <img
               src={vehicle.coverImage}
@@ -116,7 +103,6 @@ export default function ViewDetail() {
             />
           </div>
 
-          {/* ডান কলাম: ডিটেইলস ও বুকিং */}
           <div className="lg:col-span-1 flex flex-col justify-between">
             <div>
               <h1 className="text-4xl font-extrabold text-gray-800 mb-2">
@@ -151,10 +137,9 @@ export default function ViewDetail() {
               </div>
             </div>
 
-            {/* বুকিং বাটন */}
             <button
               onClick={handleBookNow}
-              className="btn btn-lg w-full bg-green-600 text-white hover:bg-green-700 border-none mt-4 disabled:bg-gray-400"
+              className="btn btn-lg w-full bg-black text-white hover:bg-blue-600 border-none mt-4 disabled:bg-gray-400"
               disabled={vehicle.availability !== "Available"}
             >
               {vehicle.availability === "Available"
