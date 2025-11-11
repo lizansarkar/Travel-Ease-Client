@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router";
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from "../../context/AuthContext";
 import { use } from "react";
 import toast from "react-hot-toast";
+import { updateProfile } from "firebase/auth";
 
 export default function Register() {
-  const {registerWithEmailPassword} = use(AuthContext);
+  const { registerWithEmailPassword } = use(AuthContext);
   const navigate = useNavigate();
 
   const handleRegister = (e) => {
@@ -14,38 +15,45 @@ export default function Register() {
     const photoUrl = e.target.photoUrl.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(name, photoUrl, email, password)
+    console.log(name, photoUrl, email, password);
 
     //password validation
     if (password.length < 6) {
-        toast.error("Password length must be at least 6 characters.");
-        return;
+      toast.error("Password length must be at least 6 characters.");
+      return;
     }
 
     //check uppercase
     if (!/[A-Z]/.test(password)) {
-        toast.error("Password must have at least one Uppercase letter (A-Z).");
-        return;
+      toast.error("Password must have at least one Uppercase letter (A-Z).");
+      return;
     }
 
     //check lowercase
     if (!/[a-z]/.test(password)) {
-        toast.error("Password must have at least one Lowercase letter (a-z).");
-        return;
+      toast.error("Password must have at least one Lowercase letter (a-z).");
+      return;
     }
 
     registerWithEmailPassword(email, password)
-    .then(res => {
-      const user = res.user;
-      console.log(user)
-      toast.success("register successfull")
-      navigate("/");
-    })
-    .catch(error => {
-      console.log(error)
-      toast.error(`Something went wrong. ${error.message}`)
-      // toast.error("Something went wrong.")
-    })
+      .then((res) => {
+        const user = res.user;
+        console.log(user);
+        toast.success("register successfull");
+
+        //update user profile
+        updateProfile(user, {
+          displayName: name,
+          photoURL: photoUrl,
+        });
+
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(`Something went wrong. ${error.message}`);
+        // toast.error("Something went wrong.")
+      });
   };
 
   return (
@@ -73,9 +81,9 @@ export default function Register() {
           {/* Photo URL Input */}
           <label className="form-control w-full">
             <input
-              type="url"
+              type="text"
               name="photoUrl"
-              placeholder="Photo URL (optional)"
+              placeholder="Photo URL"
               className="input input-bordered w-full rounded-lg border-gray-300 focus:border-primary focus:ring-primary h-12 text-neutral"
             />
           </label>
@@ -117,7 +125,12 @@ export default function Register() {
         {/* Switch to Login */}
         <p className="text-center text-sm mt-6 text-gray-500">
           Already have an account?
-          <Link className="link link-hover text-accent ml-1 font-semibold" to='/login'>login</Link>
+          <Link
+            className="link link-hover text-accent ml-1 font-semibold"
+            to="/login"
+          >
+            login
+          </Link>
         </p>
       </div>
     </div>

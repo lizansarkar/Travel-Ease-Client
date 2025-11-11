@@ -10,6 +10,7 @@ import Register from "../pages/Auth/Register";
 import Login from "../pages/Auth/Login";
 import PrivateRoute from "./PrivateRoute";
 import ErrorPage from "../pages/ErrorPage";
+import ViewDetail from "../pages/Vehicles/ViewDetail";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyBookings></MyBookings>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/vehicle/:id",
+        element: (
+          <PrivateRoute>
+            <ViewDetail></ViewDetail>
           </PrivateRoute>
         ),
       },
