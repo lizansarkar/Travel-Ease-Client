@@ -19,7 +19,7 @@ const ErrorPage = () => {
         Oops! Page Not Found.
       </h2>
       <p className="text-gray-600 mb-8">
-        The page you are looking for does not exist. Redirecting to Homepage in
+        Please find the right page you are looking for does not exist. Redirecting to Homepage in
         3 seconds...
       </p>
       <button

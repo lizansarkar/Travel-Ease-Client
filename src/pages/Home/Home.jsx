@@ -9,7 +9,6 @@ export default function Home() {
   return (
     <div>
       <Banner></Banner>
-      <ErrorPage></ErrorPage>
       <AboutUs></AboutUs>
       <LatestVehicles></LatestVehicles>
       <TopCategories></TopCategories>
