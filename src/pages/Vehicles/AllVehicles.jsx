@@ -1,7 +1,7 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { Link } from "react-router";
+import useAxios from "../../hooks/useAxios";
 
 export default function AllVehicles() {
   const [vehicles, setVehicles] = useState([]);
@@ -9,10 +9,12 @@ export default function AllVehicles() {
   const [error, setError] = useState(null);
   const [sortVehicle, setSortVehicle] = useState("");
 
+  const axiosInstance = useAxios();
+
   useEffect(() => {
     const fetchLatestVehicles = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/travels");
+        const response = await axiosInstance.get("/travels");
         setVehicles(response.data);
         setLoading(false);
       } catch (err) {
@@ -23,7 +25,7 @@ export default function AllVehicles() {
     };
 
     fetchLatestVehicles();
-  }, []);
+  }, [axiosInstance]);
 
   if (loading) {
     return (

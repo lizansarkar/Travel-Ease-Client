@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { getAuth } from "firebase/auth";
 
 export default function MyVehicles() {
   const { user, loading: authLoading } = use(AuthContext);
@@ -21,9 +22,18 @@ export default function MyVehicles() {
     }
 
     try {
+      const auth = getAuth();
+      const token = await auth.currentUser.getIdToken();
+
       const response = await axios.get(
-        `http://localhost:3000/my-vehicles?email=${user.email}`
+        `http://localhost:3000/my-vehicles?email=${user.email}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+
       setMyVehicles(response.data);
       setLoading(false);
     } catch (err) {
@@ -39,7 +49,7 @@ export default function MyVehicles() {
   }, [user, authLoading]);
 
   const handleDelete = async () => {
-    if (!deletingId){
+    if (!deletingId) {
       return;
     }
 
@@ -51,7 +61,9 @@ export default function MyVehicles() {
       if (response.data.deletedCount > 0) {
         toast.success("Vehicle deleted successfully!");
 
-        setMyVehicles(myVehicles.filter((vehicle) => vehicle._id !== deletingId));
+        setMyVehicles(
+          myVehicles.filter((vehicle) => vehicle._id !== deletingId)
+        );
       } else {
         toast.error("Deletion failed or vehicle not found.");
       }
@@ -139,7 +151,7 @@ export default function MyVehicles() {
                   className="btn btn-sm btn-outline btn-warning flex-1"
                   title="Update Vehicle Data"
                 >
-                   Update
+                  Update
                 </Link>
 
                 {/* Delete Button */}
@@ -151,7 +163,7 @@ export default function MyVehicles() {
                   className="btn btn-sm btn-outline btn-error flex-1"
                   title="Delete Vehicle"
                 >
-                   Delete
+                  Delete
                 </button>
               </div>
             </div>
@@ -159,10 +171,8 @@ export default function MyVehicles() {
         ))}
       </div>
 
-
       <dialog id="delete_modal" className="modal">
         <div className="modal-box">
-
           <h3 className="font-bold text-lg text-red-600">Confirm Deletion</h3>
 
           <p className="py-4">
@@ -184,7 +194,6 @@ export default function MyVehicles() {
             >
               Cancel
             </button>
-            
           </div>
         </div>
       </dialog>
