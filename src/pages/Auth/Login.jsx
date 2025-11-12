@@ -17,6 +17,8 @@ export default function Login() {
           image: result.user.photoURL
         }
 
+        navigate("/");
+
         //create user in the database
         fetch('http://localhost:3000/users', {
           method: 'POST',

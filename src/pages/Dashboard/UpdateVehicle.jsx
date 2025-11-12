@@ -24,7 +24,7 @@ export default function UpdateVehicle() {
         setLoading(false);
         return;
       }
-      
+
       try {
         const response = await axios.get(`http://localhost:3000/travels/${id}`);
 
@@ -46,11 +46,9 @@ export default function UpdateVehicle() {
     if (id && user) {
       fetchVehicleData();
     }
+
   }, [id, user, navigate]);
 
-  // ----------------------------------------------------
-  // ফর্ম সাবমিট হ্যান্ডলার (আপডেট লজিক)
-  // ----------------------------------------------------
   const handleUpdateVehicle = async (e) => {
     e.preventDefault();
 
@@ -64,30 +62,26 @@ export default function UpdateVehicle() {
       availability: form.availability.value,
       description: form.description.value,
       coverImage: form.coverImage.value,
-      userEmail: user.email, // মালিকানা নিশ্চিত করার জন্য
+      userEmail: user.email,
     };
 
-    // ক্লায়েন্ট সাইড ভ্যালিডেশন
     if (updatedData.pricePerDay <= 0 || isNaN(updatedData.pricePerDay)) {
       toast.error("Price per day must be a valid positive number.");
       return;
     }
 
     try {
-      // ⭐️ ব্যাকএন্ডে PUT/PATCH রিকোয়েস্ট পাঠানো ⭐️
-      // আপনাকে ব্যাকএন্ডে এই রুটটি তৈরি করতে হবে (PUT /vehicle/:id)
       const response = await axios.put(
         `http://localhost:3000/vehicle/${id}`,
         updatedData
       );
 
-      // ধরে নিচ্ছি সার্ভার updatedData অথবা {modifiedCount: 1} রিটার্ন করবে
       if (
         response.data.modifiedCount > 0 ||
         response.data.acknowledged === true
       ) {
-        toast.success("Vehicle updated successfully! ✅");
-        navigate("/my-vehicle"); // আপডেটের পর আমার গাড়ির পেজে রিডাইরেক্ট
+        toast.success("Vehicle updated successfully!");
+        navigate("/my-vehicle");
       } else {
         toast.error("Update failed or no changes were made.");
       }
@@ -97,9 +91,6 @@ export default function UpdateVehicle() {
     }
   };
 
-  // ----------------------------------------------------
-  // লোডিং এবং এরর স্টেট হ্যান্ডেল
-  // ----------------------------------------------------
   if (loading) {
     return (
       <div className="text-center py-20">
@@ -117,9 +108,6 @@ export default function UpdateVehicle() {
     );
   }
 
-  // ----------------------------------------------------
-  // ফর্ম রেন্ডার
-  // ----------------------------------------------------
   return (
     <div className="h-auto flex justify-center items-center bg-base-200 p-4 py-12">
       <div className="card w-full max-w-4xl bg-base-100 shadow-xl md:shadow-2xl rounded-2xl p-6 md:p-10 transition-all duration-300">
@@ -131,7 +119,7 @@ export default function UpdateVehicle() {
         </p>
 
         <form onSubmit={handleUpdateVehicle} className="flex flex-col gap-5">
-          {/* 1. Vehicle Name & Owner Name */}
+          {/* Vehicle Name and Owner Name */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label className="form-control w-full">
               <input
@@ -139,7 +127,7 @@ export default function UpdateVehicle() {
                 name="vehicleName"
                 placeholder="Vehicle Name"
                 className="input input-bordered w-full rounded-lg h-12 text-neutral"
-                defaultValue={vehicleData.vehicleName} // ⭐️ বর্তমান ডেটা লোড ⭐️
+                defaultValue={vehicleData.vehicleName}
                 required
               />
             </label>
@@ -149,19 +137,19 @@ export default function UpdateVehicle() {
                 name="ownerName"
                 placeholder="Owner Name"
                 className="input input-bordered w-full rounded-lg h-12 text-neutral"
-                defaultValue={vehicleData.ownerName} // ⭐️ বর্তমান ডেটা লোড ⭐️
+                defaultValue={vehicleData.ownerName}
                 required
               />
             </label>
           </div>
 
-          {/* 2. Category & Price Per Day */}
+          {/* Category & Price Per Day */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label className="form-control w-full">
               <select
                 name="category"
                 className="select select-bordered w-full rounded-lg h-12 text-neutral"
-                defaultValue={vehicleData.category} // ⭐️ বর্তমান ডেটা লোড ⭐️
+                defaultValue={vehicleData.category}
                 required
               >
                 {CATEGORIES.map((cat) => (
@@ -177,14 +165,14 @@ export default function UpdateVehicle() {
                 name="pricePerDay"
                 placeholder="Price Per Day (USD)"
                 className="input input-bordered w-full rounded-lg h-12 text-neutral"
-                defaultValue={vehicleData.pricePerDay} // ⭐️ বর্তমান ডেটা লোড ⭐️
+                defaultValue={vehicleData.pricePerDay}
                 min="1"
                 required
               />
             </label>
           </div>
 
-          {/* 3. Location & Availability */}
+          {/* Location & Availability */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label className="form-control w-full">
               <input
@@ -192,7 +180,7 @@ export default function UpdateVehicle() {
                 name="location"
                 placeholder="Location"
                 className="input input-bordered w-full rounded-lg h-12 text-neutral"
-                defaultValue={vehicleData.location} // ⭐️ বর্তমান ডেটা লোড ⭐️
+                defaultValue={vehicleData.location}
                 required
               />
             </label>
@@ -200,7 +188,7 @@ export default function UpdateVehicle() {
               <select
                 name="availability"
                 className="select select-bordered w-full rounded-lg h-12 text-neutral"
-                defaultValue={vehicleData.availability} // ⭐️ বর্তমান ডেটা লোড ⭐️
+                defaultValue={vehicleData.availability}
                 required
               >
                 {AVAILABILITY.map((status) => (
@@ -212,25 +200,25 @@ export default function UpdateVehicle() {
             </label>
           </div>
 
-          {/* 4. Cover Image URL */}
+          {/* Cover Image URL */}
           <label className="form-control w-full">
             <input
               type="url"
               name="coverImage"
               placeholder="Cover Image URL"
               className="input input-bordered w-full rounded-lg h-12 text-neutral"
-              defaultValue={vehicleData.coverImage} // ⭐️ বর্তমান ডেটা লোড ⭐️
+              defaultValue={vehicleData.coverImage}
               required
             />
           </label>
 
-          {/* 5. Description (Textarea) */}
+          {/* Description (Textarea) */}
           <label className="form-control w-full">
             <textarea
               name="description"
               placeholder="Vehicle Description"
               className="textarea textarea-bordered h-24 rounded-lg text-neutral"
-              defaultValue={vehicleData.description} // ⭐️ বর্তমান ডেটা লোড ⭐️
+              defaultValue={vehicleData.description}
               minLength="50"
               required
             ></textarea>
@@ -239,7 +227,7 @@ export default function UpdateVehicle() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="btn w-full bg-warning text-white hover:bg-orange-600 rounded-lg border-none h-12 text-base font-semibold mt-6"
+            className="btn w-full bg-green-600 text-white hover:bg-orange-600 rounded-lg border-none h-12 text-base font-semibold mt-6"
           >
             Save Changes
           </button>

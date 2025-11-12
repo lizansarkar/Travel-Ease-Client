@@ -1,5 +1,3 @@
-// src/pages/Vehicles/ViewDetail.jsx
-
 import React, { useEffect, useState, use } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -151,7 +149,6 @@ export default function ViewDetail() {
 
         <hr className="my-8" />
 
-        {/* বিবরণী সেকশন */}
         <div className="pt-4">
           <h3 className="text-2xl font-bold mb-3 text-gray-700">Description</h3>
           <p className="text-gray-700 leading-relaxed">{vehicle.description}</p>
