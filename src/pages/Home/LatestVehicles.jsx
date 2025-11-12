@@ -134,7 +134,6 @@ export default function LatestVehicles() {
             <div className="modal-action p-4 border-t">
               <form method="dialog">
                 <button className="btn btn-outline">Close</button>
-                <button className="btn btn-primary ml-2">Book Now</button>
               </form>
             </div>
           </div>

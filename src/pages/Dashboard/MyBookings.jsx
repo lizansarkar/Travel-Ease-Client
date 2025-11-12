@@ -1,21 +1,24 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { getAuth } from "firebase/auth";
+import toast from "react-hot-toast";
 
 export default function MyBookings() {
-  const { user, loading } = use(AuthContext);
-  console.log(user);
+  const { user, loading } = React.useContext(AuthContext);
 
   const [bookings, setBookings] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [modalLoading, setModalLoading] = useState(false);
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
         const auth = getAuth();
-        const token = await auth.currentUser.getIdToken(); // Firebase থেকে token নাও
+        const token = await auth.currentUser.getIdToken();
 
         const response = await axios.get(
           `http://localhost:3000/bookings?email=${user?.email}`,
@@ -26,25 +29,56 @@ export default function MyBookings() {
           }
         );
 
-        console.log("Response Data:", response.data); // Debugging এর জন্য
-
-        // ✅ নিরাপদভাবে চেক করো এটা array কিনা
         if (Array.isArray(response.data)) {
           setBookings(response.data);
         } else {
           console.error("Unexpected data:", response.data);
-          setBookings([]); // fallback empty array
+          setBookings([]);
         }
       } catch (error) {
         console.error("Error fetching bookings:", error);
-        setBookings([]); // fallback empty array
+        toast.error("Failed to fetch bookings. 403 Forbidden.");
+        setBookings([]);
       }
     };
 
-    if (user?.email) {
+    if (user?.email && !loading) {
       fetchBookings();
     }
-  }, [user]);
+  }, [user, loading]);
+
+  const handleViewDetails = async (vehicleId) => {
+    setModalLoading(true);
+    setIsModalOpen(true);
+    setSelectedVehicle(null);
+
+    try {
+      const auth = getAuth();
+      const token = await auth.currentUser.getIdToken();
+
+      const response = await axios.get(
+        `http://localhost:3000/travels/${vehicleId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setSelectedVehicle(response.data);
+    } catch (error) {
+      console.error("Error fetching vehicle details:", error);
+      toast.error("Could not load vehicle details.");
+      setIsModalOpen(false);
+    } finally {
+      setModalLoading(false);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedVehicle(null);
+  };
 
   if (loading) {
     return (
@@ -65,7 +99,7 @@ export default function MyBookings() {
         </p>
         <Link
           to="/all-vehicles"
-          className="mt-6 btn bg-black hover:bg-black border-none text-white"
+          className="mt-6 btn bg-black border-none text-white"
         >
           Browse Vehicles
         </Link>
@@ -73,9 +107,75 @@ export default function MyBookings() {
     );
   }
 
+  const VehicleDetailsModal = ({ vehicle, onClose }) => {
+    if (!vehicle) return null;
+
+    return (
+      <div
+        className="fixed inset-0 bg-opacity-50 z-50 flex justify-center items-center p-4"
+        onClick={onClose}
+      >
+        <div
+          className="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden transform transition-all duration-300 scale-100"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="p-6">
+            <h2 className="text-3xl font-bold text-black mb-2 border-b pb-2">
+              {vehicle.vehicleName || "Vehicle Details"}
+            </h2>
+            <p className="text-sm text-gray-500 mb-6">
+              {vehicle.modelYear || "Model year not specified"}
+            </p>
+
+            <div className="space-y-3">
+              <p className="flex justify-between">
+                <span className="font-semibold text-gray-700">Category:</span>
+                <span className="text-black font-medium">
+                  {vehicle.category}
+                </span>
+              </p>
+              <p className="flex justify-between">
+                <span className="font-semibold text-gray-700">
+                  Price Per Day:
+                </span>
+                <span className="text-lg font-bold text-green-600">
+                  ${vehicle.pricePerDay}
+                </span>
+              </p>
+              <p className="flex justify-between">
+                <span className="font-semibold text-gray-700">
+                  Owner Email:
+                </span>
+                <span className="text-gray-600 break-all">
+                  {vehicle.userEmail}
+                </span>
+              </p>
+              <p>
+                <span className="font-semibold text-gray-700 block mb-1">
+                  Description:
+                </span>
+                <span className="text-gray-500 text-sm italic">
+                  {vehicle.description || "No description provided."}
+                </span>
+              </p>
+            </div>
+          </div>
+          <div className="p-4 bg-gray-50 flex justify-end">
+            <button
+              onClick={onClose}
+              className="btn bg-gray-300 hover:bg-gray-400 border-none text-gray-800"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="container mx-auto px-4 py-10">
-      <h1 className="text-4xl font-extrabold text-indigo-700 mb-8 border-b-4 border-indigo-200 pb-2">
+      <h1 className="text-4xl font-extrabold text-black mb-8 border-b-4 border-gray-200 pb-2">
         My Bookings ({bookings.length})
       </h1>
 
@@ -83,7 +183,7 @@ export default function MyBookings() {
         {bookings.map((booking) => (
           <div
             key={booking._id}
-            className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border-l-4 border-indigo-500"
+            className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border-l-4 border-black"
           >
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
               <div className="mb-4 md:mb-0">
@@ -115,7 +215,7 @@ export default function MyBookings() {
             <div className="grid grid-cols-2 gap-4 text-gray-600">
               <div>
                 <p className="font-semibold text-sm">Cost:</p>
-                <p className="text-lg font-bold text-indigo-600">
+                <p className="text-lg font-bold text-green-600">
                   ${booking.totalPrice || booking.pricePerDay}
                 </p>
               </div>
@@ -142,16 +242,30 @@ export default function MyBookings() {
             </div>
 
             <div className="mt-4 pt-4 border-t flex justify-end">
-              <Link
-                to={`/vehicle/${booking.vehicleId}`}
+              <button
+                onClick={() => handleViewDetails(booking.vehicleId)} // Link এর বদলে Button এবং নতুন হ্যান্ডলার কল
                 className="btn btn-sm btn-outline btn-info text-xs"
+                disabled={modalLoading}
               >
-                View Vehicle Details
-              </Link>
+                {modalLoading ? "Loading..." : "View Vehicle Details"}
+              </button>
             </div>
           </div>
         ))}
       </div>
+
+      {isModalOpen && !modalLoading && (
+        <VehicleDetailsModal
+          vehicle={selectedVehicle}
+          onClose={handleCloseModal}
+        />
+      )}
+
+      {isModalOpen && modalLoading && (
+        <div className="fixed inset-0 bg-opacity-30 z-40 flex justify-center items-center">
+          <LoadingSpinner />
+        </div>
+      )}
     </div>
   );
 }

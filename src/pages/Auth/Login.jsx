@@ -4,45 +4,45 @@ import toast from "react-hot-toast";
 import { use } from "react";
 
 export default function Login() {
-  const { signInWithGoogle, loginWithEmailPassword } = use(AuthContext);
+  const { loginWithEmailPassword } = use(AuthContext);
   const navigate = useNavigate();
 
-  const handleGoogleSignIn = () => {
-    signInWithGoogle()
-      .then((result) => {
-        console.log(result.user);
-        const newUser = {
-          name: result.user.displayName,
-          email: result.user.email,
-          image: result.user.photoURL
-        }
+  // const handleGoogleSignIn = () => {
+  //   signInWithGoogle()
+  //     .then((result) => {
+  //       console.log(result.user);
+  //       const newUser = {
+  //         name: result.user.displayName,
+  //         email: result.user.email,
+  //         image: result.user.photoURL
+  //       }
 
-        navigate("/");
+  //       navigate("/");
 
-        //create user in the database
-        fetch('http://localhost:3000/users', {
-          method: 'POST',
-          headers: {
-            'content-type' : 'application/json'
-          },
-          body: JSON.stringify(newUser)
-        })
-        .then(res => res.json())
-        .then(data => {
-          console.log(data)
-        })
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  //       //create user in the database
+  //       fetch('http://localhost:3000/users', {
+  //         method: 'POST',
+  //         headers: {
+  //           'content-type' : 'application/json'
+  //         },
+  //         body: JSON.stringify(newUser)
+  //       })
+  //       .then(res => res.json())
+  //       .then(data => {
+  //         console.log(data)
+  //       })
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   const handleLogin = (e) => {
     e.preventDefault();
 
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(email, password)
+    // console.log(email, password)
 
     loginWithEmailPassword(email, password)
     .then(res => {
@@ -113,7 +113,7 @@ export default function Login() {
         </div>
 
         {/* Google Sign-in Button */}
-        <button
+        {/* <button
           onClick={handleGoogleSignIn}
           className="btn bg-white text-black border-[#e5e5e5]"
         >
@@ -145,7 +145,7 @@ export default function Login() {
             </g>
           </svg>
           Login with Google
-        </button>
+        </button> */}
 
         {/* Switch to Register */}
         <p className="text-center text-sm mt-6 text-gray-500">

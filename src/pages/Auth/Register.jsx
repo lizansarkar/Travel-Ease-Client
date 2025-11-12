@@ -15,7 +15,7 @@ export default function Register() {
     const photoUrl = e.target.photoUrl.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(name, photoUrl, email, password);
+    // console.log(name, photoUrl, email, password);
 
     //password validation
     if (password.length < 6) {
@@ -38,7 +38,7 @@ export default function Register() {
     registerWithEmailPassword(email, password)
       .then((res) => {
         const user = res.user;
-        console.log(user);
+        // console.log(user);
         toast.success("register successfull");
 
         //update user profile
@@ -50,7 +50,7 @@ export default function Register() {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         toast.error(`Something went wrong. ${error.message}`);
         // toast.error("Something went wrong.")
       });

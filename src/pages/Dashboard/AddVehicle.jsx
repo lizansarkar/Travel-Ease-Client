@@ -50,7 +50,7 @@ export default function AddVehicle() {
            Authorization: `Bearer ${token}`,
         }
       })
-      console.log(res.data)
+      // console.log(res.data)
 
       if(res.data.insertedId) {
         toast.success("Vehicle added successfully!");

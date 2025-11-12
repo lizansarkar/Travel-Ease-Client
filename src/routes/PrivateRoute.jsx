@@ -1,10 +1,10 @@
 import React, { use } from 'react'
-import { Navigate, useNavigate } from 'react-router';
+import { Navigate } from 'react-router';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { AuthContext } from '../context/AuthContext';
 
 export default function PrivateRoute({children}) {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const {user, loading} = use(AuthContext);
 
     if(loading) {
@@ -16,7 +16,7 @@ export default function PrivateRoute({children}) {
     }
 
     if(!user) {
-        return navigate('/register');
+        return <Navigate to="/register"></Navigate>;
     }
 
     return children;
