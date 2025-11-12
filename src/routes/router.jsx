@@ -32,11 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/all-vehicles",
-        element: (
-          <PrivateRoute>
-            <AllVehicles />
-          </PrivateRoute>
-        ),
+        element: <AllVehicles />,
       },
       {
         path: "/add-vehicle",

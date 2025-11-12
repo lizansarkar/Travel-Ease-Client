@@ -3,6 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { getAuth } from "firebase/auth";
 
 const CATEGORIES = ["SUV", "Electric", "Van", "Sedan", "Luxury", "Standard"];
 const AVAILABILITY = ["Available", "Booked", "Maintenance"];
@@ -42,7 +43,13 @@ export default function AddVehicle() {
     //added mongosdb 
 
     try {
-      const res = await axios.post("http://localhost:3000/addedVehicle", addNewVehicle)
+      const auth = getAuth();
+      const token = await auth.currentUser.getIdToken();
+      const res = await axios.post("http://localhost:3000/addedVehicle", addNewVehicle, {
+        headers: {
+           Authorization: `Bearer ${token}`,
+        }
+      })
       console.log(res.data)
 
       if(res.data.insertedId) {

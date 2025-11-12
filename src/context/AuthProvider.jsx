@@ -59,7 +59,6 @@ export default function AuthProvider({ children }) {
         currentUser
           .getIdToken()
           .then((idToken) => {
-            console.log("Firebase ID Token:", idToken);
             localStorage.setItem("access-token", idToken);
           })
           .catch((error) => {

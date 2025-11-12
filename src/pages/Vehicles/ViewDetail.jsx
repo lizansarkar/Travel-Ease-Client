@@ -4,6 +4,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../context/AuthContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { Link } from "react-router";
+import { getAuth } from "firebase/auth";
 
 export default function ViewDetail() {
   const { id } = useParams();
@@ -16,7 +18,14 @@ export default function ViewDetail() {
   useEffect(() => {
     const fetchVehicleDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/travels/${id}`);
+        const response = await axios.get(
+          `http://localhost:3000/travels/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${await user?.getIdToken()}`,
+            },
+          }
+        );
         setVehicle(response.data);
         setLoading(false);
       } catch (err) {
@@ -30,7 +39,7 @@ export default function ViewDetail() {
     } else {
       setLoading(false);
     }
-  }, [id]);
+  }, [id, user]);
 
   const handleBookNow = async () => {
     if (!user) {
@@ -55,9 +64,16 @@ export default function ViewDetail() {
     };
 
     try {
+      const auth = getAuth();
+      const token = await auth.currentUser.getIdToken();
       const res = await axios.post(
         `http://localhost:3000/bookings`,
-        bookingData
+        bookingData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (res.data.insertedId) {
@@ -153,6 +169,13 @@ export default function ViewDetail() {
           <h3 className="text-2xl font-bold mb-3 text-gray-700">Description</h3>
           <p className="text-gray-700 leading-relaxed">{vehicle.description}</p>
         </div>
+
+        <Link
+          to="/all-vehicles"
+          className="mt-8 inline-block text-blue-600 underline"
+        >
+          Back to All Vehicles
+        </Link>
       </div>
     </div>
   );
