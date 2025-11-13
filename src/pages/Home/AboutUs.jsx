@@ -7,7 +7,7 @@ const AboutUs = () => {
         <h2 className="text-4xl md:text-5xl font-extrabold text-center text-gray-800 mb-6">
           About 
           <span className="w-12 inline-block ml-2">
-            <img src="/src/assets/icon1.png" alt="TravelEase Logo" />
+            <img src="/assets/icon1.png" alt="TravelEase Logo" />
           </span>
         </h2>
 
@@ -38,7 +38,7 @@ const AboutUs = () => {
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
                 <span className="text-2xl text-blue-600">
-                  <img src="/src/assets/icon1.png" alt="" className="w-[100px]" />
+                  <img src="/assets/icon1.png" alt="" className="w-[100px]" />
                 </span>
                 <div>
                   <h4 className="font-semibold text-gray-800">
@@ -53,7 +53,7 @@ const AboutUs = () => {
 
               <div className="flex items-start space-x-4">
                 <span className="text-2xl text-blue-600">
-                  <img src="/src/assets/icon2.png" alt="" className="w-[100px]" />
+                  <img src="/assets/icon2.png" alt="" className="w-[100px]" />
                 </span>
                 <div>
                   <h4 className="font-semibold text-gray-800">
@@ -68,7 +68,7 @@ const AboutUs = () => {
 
               <div className="flex items-start space-x-4">
                 <span className="text-2xl text-blue-600">
-                  <img src="/src/assets/icon3.png" alt="" className="w-[100px]" />
+                  <img src="/assets/icon3.png" alt="" className="w-[100px]" />
                 </span>
                 <div>
                   <h4 className="font-semibold text-gray-800">24/7 Support</h4>

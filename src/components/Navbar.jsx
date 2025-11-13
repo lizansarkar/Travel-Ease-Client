@@ -71,7 +71,7 @@ export default function Navbar() {
           </div>
           <a className="flex items-center justify-center cursor-pointer">
             <img
-              src="/src/assets/icon1.png"
+              src="/assets/icon1.png"
               alt="TravelEase Logo"
               className="h-15"
             />

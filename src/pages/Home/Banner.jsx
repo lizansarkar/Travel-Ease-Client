@@ -1,7 +1,7 @@
 // Banner.jsx
 import React from "react";
 import { Link } from "react-router-dom";
-import bannerImage from "../../assets/banner.jpg";
+import bannerImage from "/assets/banner.jpg";
 
 const Banner = () => {
   return (
