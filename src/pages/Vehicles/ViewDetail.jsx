@@ -19,7 +19,7 @@ export default function ViewDetail() {
     const fetchVehicleDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/travels/${id}`,
+          `https://travel-ease-server-tawny.vercel.app/travels/${id}`,
           {
             headers: {
               Authorization: `Bearer ${await user?.getIdToken()}`,
@@ -67,7 +67,7 @@ export default function ViewDetail() {
       const auth = getAuth();
       const token = await auth.currentUser.getIdToken();
       const res = await axios.post(
-        `http://localhost:3000/bookings`,
+        `https://travel-ease-server-tawny.vercel.app/bookings`,
         bookingData,
         {
           headers: {

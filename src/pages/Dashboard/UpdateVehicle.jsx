@@ -26,7 +26,7 @@ export default function UpdateVehicle() {
       }
 
       try {
-        const response = await axios.get(`http://localhost:3000/travels/${id}`);
+        const response = await axios.get(`https://travel-ease-server-tawny.vercel.app/travels/${id}`);
 
         if (response.data.userEmail !== user?.email) {
           toast.error("You are not authorized to update this vehicle.");
@@ -72,7 +72,7 @@ export default function UpdateVehicle() {
 
     try {
       const response = await axios.put(
-        `http://localhost:3000/vehicle/${id}`,
+        `https://travel-ease-server-tawny.vercel.app/vehicle/${id}`,
         updatedData
       );
 

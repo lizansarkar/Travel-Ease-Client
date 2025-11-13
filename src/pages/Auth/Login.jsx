@@ -20,7 +20,7 @@ export default function Login() {
   //       navigate("/");
 
   //       //create user in the database
-  //       fetch('http://localhost:3000/users', {
+  //       fetch('https://travel-ease-server-tawny.vercel.app/users', {
   //         method: 'POST',
   //         headers: {
   //           'content-type' : 'application/json'

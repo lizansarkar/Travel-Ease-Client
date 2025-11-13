@@ -45,7 +45,7 @@ export default function AddVehicle() {
     try {
       const auth = getAuth();
       const token = await auth.currentUser.getIdToken();
-      const res = await axios.post("http://localhost:3000/addedVehicle", addNewVehicle, {
+      const res = await axios.post("https://travel-ease-server-tawny.vercel.app/addedVehicle", addNewVehicle, {
         headers: {
            Authorization: `Bearer ${token}`,
         }

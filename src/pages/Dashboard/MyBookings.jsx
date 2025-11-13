@@ -21,7 +21,7 @@ export default function MyBookings() {
         const token = await auth.currentUser.getIdToken();
 
         const response = await axios.get(
-          `http://localhost:3000/bookings?email=${user?.email}`,
+          `https://travel-ease-server-tawny.vercel.app/bookings?email=${user?.email}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -57,7 +57,7 @@ export default function MyBookings() {
       const token = await auth.currentUser.getIdToken();
 
       const response = await axios.get(
-        `http://localhost:3000/travels/${vehicleId}`,
+        `https://travel-ease-server-tawny.vercel.app/travels/${vehicleId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

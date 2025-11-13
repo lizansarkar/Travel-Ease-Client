@@ -26,7 +26,7 @@ export default function MyVehicles() {
       const token = await auth.currentUser.getIdToken();
 
       const response = await axios.get(
-        `http://localhost:3000/my-vehicles?email=${user.email}`,
+        `https://travel-ease-server-tawny.vercel.app/my-vehicles?email=${user.email}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -55,7 +55,7 @@ export default function MyVehicles() {
 
     try {
       const response = await axios.delete(
-        `http://localhost:3000/vehicle/${deletingId}`
+        `https://travel-ease-server-tawny.vercel.app/vehicle/${deletingId}`
       );
 
       if (response.data.deletedCount > 0) {

@@ -14,7 +14,7 @@ export default function LatestVehicles() {
   useEffect(() => {
     const fetchLatestVehicles = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/letestTravels");
+        const response = await axios.get("https://travel-ease-server-tawny.vercel.app/letestTravels");
         setVehicles(response.data);
         setLoading(false);
       } catch (err) {
